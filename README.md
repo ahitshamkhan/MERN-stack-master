@@ -16,12 +16,12 @@ This monorepo documents my complete 45-day summer learning sprint. Every project
 
 | # | Project | Stack | Live Demo | Status |
 |---|---------|-------|-----------|--------|
-| 1 | **Todo App** — Full CRUD with auth | React, Node, Express, MongoDB, JWT | [Live]() | ✅ Done |
-| 2 | **Auth System** — Register, login, refresh tokens, email verify | React, TS, Node, JWT, Nodemailer | [Live]() | ✅ Done |
-| 3 | **E-Commerce App** — Products, cart, orders, image upload | MERN, TypeScript, Redis, Cloudinary | [Live]() | ✅ Done |
-| 4 | **Real-Time Chat** — Private + group messaging | MERN, Socket.io, TypeScript | [Live]() | ✅ Done |
-| 5 | **Next.js Blog** — SSG, SSR, Server Actions, admin dashboard | Next.js 15, Tailwind, MDX | [Live]() | ✅ Done |
-| 6 | **DevOps Setup** — Dockerized MERN, CI/CD pipeline | Docker, GitHub Actions, Render | [Live]() | ✅ Done |
+| 1 | **Todo App** — Full CRUD with auth | React, Node, Express, MongoDB, JWT | [Live]() |  |
+| 2 | **Auth System** — Register, login, refresh tokens, email verify | React, TS, Node, JWT, Nodemailer | [Live]() |  |
+| 3 | **E-Commerce App** — Products, cart, orders, image upload | MERN, TypeScript, Redis, Cloudinary | [Live]() | |
+| 4 | **Real-Time Chat** — Private + group messaging | MERN, Socket.io, TypeScript | [Live]() | |
+| 5 | **Next.js Blog** — SSG, SSR, Server Actions, admin dashboard | Next.js 15, Tailwind, MDX | [Live]() | |
+| 6 | **DevOps Setup** — Dockerized MERN, CI/CD pipeline | Docker, GitHub Actions, Render | [Live]() ||
 
 ---
 
