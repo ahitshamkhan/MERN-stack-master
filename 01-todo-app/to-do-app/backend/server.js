@@ -1,6 +1,9 @@
 const express = require("express");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
+const colors=require('colors');
+const cors=require('cors');
+
 
 //env config
 dotenv.config();
@@ -12,16 +15,15 @@ const app=express();
 //middlewares
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cors());
 
 //routes
-app.get('/test',(req,res)=>{
-  res.status(200).send('<h1>Welcome to To-do App MERN Node Server </h1>');
-})
+app.use('/api/v1/test',require('./routes/testRouter'));
 
 //port
 const PORT=process.env.PORT||8080
 
 //listen
 app.listen(PORT,()=>{
-  console.log(`Server is Running on ${process.env.DEV_MODE} mode on port ${PORT}`);
+  console.log(`Server is Running on ${process.env.DEV_MODE} mode on port ${PORT}`.bgMagenta);
 })
