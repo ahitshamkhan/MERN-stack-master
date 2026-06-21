@@ -3,10 +3,13 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const colors=require('colors');
 const cors=require('cors');
-
+const connectDB=require('./config/db')
 
 //env config
 dotenv.config();
+
+//databse connect
+connectDB();
 
 //rest object
 const app=express();
