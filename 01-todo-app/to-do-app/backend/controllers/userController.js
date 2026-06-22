@@ -1,5 +1,6 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcryptjs");
+const JWT=require("jsonwebtoken");
 
 const registerController = async (req, res) => {
   try {
@@ -71,11 +72,17 @@ const loginController = async (req, res) => {
         message: "Invalid credentials",
       });
     }
+    
+    const token=JWT.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"1d"})
 
     res.status(200).send({
       success: true,
       message: "Login successfull",
-      user,
+      token,
+      user:{
+        username:user.username,
+        email:user.email,
+      },
     });
   } catch (error) {
     console.log(error);
