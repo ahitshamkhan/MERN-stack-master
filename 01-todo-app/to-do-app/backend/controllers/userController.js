@@ -1,4 +1,6 @@
 const userModel = require("../models/userModel");
+const bcrypt = require("bcryptjs");
+
 const registerController = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -9,7 +11,7 @@ const registerController = async (req, res) => {
         success: false,
         message: "Please provide name, email and password",
       });
-    } 
+    }
 
     // check existing user
     const existingUser = await userModel.findOne({ email });
@@ -20,8 +22,15 @@ const registerController = async (req, res) => {
       });
     }
 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     // save user
-    const newUser = new userModel({ username, email, password });
+    const newUser = new userModel({
+      username,
+      email,
+      password: hashedPassword,
+    });
     await newUser.save();
     res.status(201).send({
       success: true,
@@ -39,34 +48,43 @@ const registerController = async (req, res) => {
 };
 
 // login controller
-const loginController=async (req,res)=>{
-    try {
-        const {email,password}=req.body;
-        
-        //find user
-        const user= await userModel.findOne({email,password});
-      
-        //validation
-        if(!user){
-            return res.status(400).send({
-                success:false,
-                message:"Please provide valid email and password"
-            });
-        }
+const loginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-        res.status(200).send({
-            success:true,
-            message:"Login successfull",
-            user
-        }); 
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({
-            success:false,
-            message:"Login API",
-            error
-        })
+    //find user
+    const user = await userModel.findOne({ email });
+
+    //validation
+    if (!user) {
+      return res.status(400).send({
+        success: false,
+        message: "Please provide valid credentials",
+      });
     }
-}
 
-module.exports = { registerController,loginController};
+    //match password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(500).send({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "Login successfull",
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Login API",
+      error,
+    });
+  }
+};
+
+module.exports = { registerController, loginController };
