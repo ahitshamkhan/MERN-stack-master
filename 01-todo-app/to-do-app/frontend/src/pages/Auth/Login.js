@@ -18,8 +18,10 @@ const Login = () => {
       toast.success(res.data.message);
       console.log(res.data.message);
       navigate('/home');
+      localStorage.setItem("to-doapp", JSON.stringify(res.data));
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message); 
+      console.log(error.response.data.message);
     }
   }
   return (
