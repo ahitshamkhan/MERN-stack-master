@@ -1,15 +1,23 @@
 import React,{useState}  from "react";
-import { Link} from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 import "./AuthStyles.css";
+import AuthServices from "../../services/AuthServices";
+import toast from "react-hot-toast";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate=useNavigate();
   
-  const loginHandler=(e)=>{
+  const loginHandler= async (e)=>{
     try {
       e.preventDefault();
-      alert("Login Data Email: "+ email +" Password: " + password);
+      const data={email,password}
+      const res=await AuthServices.loginUser(data);
+      toast.success(res.data.message);
+      console.log(res.data.message);
+      navigate('/home');
     } catch (error) {
       console.log(error);
     }
