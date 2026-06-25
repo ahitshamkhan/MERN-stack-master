@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./AuthStyles.css";
 import AuthServices from "../../services/AuthServices";
-import toast from "react-hot-toast";
+import toast from "react-hot-toast";  
+import { getErrorMessage } from "../../utils/ErrorMessage";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ const Register = () => {
       console.log(res.data.message);
       navigate('/login');
     } catch (error) {
-      toast.error(error.response?.data?.message || "Registration failed");
+      toast.error(getErrorMessage(error));
       console.log(error.response?.data?.message);
     }
   };

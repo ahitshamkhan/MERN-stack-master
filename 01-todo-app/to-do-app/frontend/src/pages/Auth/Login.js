@@ -3,7 +3,7 @@ import { Link,useNavigate} from "react-router-dom";
 import "./AuthStyles.css";
 import AuthServices from "../../services/AuthServices";
 import toast from "react-hot-toast";
-
+import { getErrorMessage } from "../../utils/ErrorMessage";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ const Login = () => {
       navigate('/home');
       localStorage.setItem("to-doapp", JSON.stringify(res.data));
     } catch (error) {
-      toast.error(error.response.data.message); 
+      toast.error(getErrorMessage(error)); 
       console.log(error.response.data.message);
     }
   }
