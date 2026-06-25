@@ -23,6 +23,7 @@ app.use(cors());
 //routes
 app.use('/api/v1/test',require('./routes/testRouter'));
 app.use('/api/v1/user',require('./routes/userRoute'));
+app.use('/api/v1/todo',require('./routes/todoRouter'));
 
 //port
 const PORT=process.env.PORT||8080
