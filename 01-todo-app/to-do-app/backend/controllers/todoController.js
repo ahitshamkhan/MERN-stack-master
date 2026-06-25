@@ -1,6 +1,57 @@
-const createtodoController=(req,res)=>{
-  res.send('hi');
+const todoModel = require("../models/todoModel");
+
+const createtodoController= async (req,res)=>{
+  try{
+    const {
+      title,
+      description,
+      createdBy,
+    } = req.body;
+
+    if(!title){
+      return res.status(500).send({success:false,message:'title is required'});
+    } 
+    if(!description){
+      return res.status(500).send({success:false,message:'description is required'});
+    } 
+    const todo= new todoModel({
+      title,
+      description,
+      createdBy,
+    })
+    const result= await todo.save();
+    return res.status(201).send({success:true,message:'todo created successfully',result});
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ success: false, message: 'create todo error', error: err.message });
+  }
   
 }
 
-module.exports={createtodoController};
+const gettodoController= async (req,res)=>{
+  try{
+    const {id}=req.params;
+
+    if(!id){
+      return res.status(404).send({
+        success:false,
+        message:'No user found with this ID'
+      })
+    }
+
+    const todo= await todoModel.find({createdBy:id});
+    if(!todo){
+      return res.status(404).send({
+        success:false,
+        message:'No todo found with this ID',
+        error:err.message
+      })
+    }
+    return res.status(200).send({success:true,message:'todo fetched successfully',todo});
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ success: false, message: 'get todo error', error: err.message });
+  }
+}
+
+module.exports={createtodoController,gettodoController};

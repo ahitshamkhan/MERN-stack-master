@@ -9,6 +9,7 @@ module.exports = async (req, res, next) => {
           .status(401)
           .send({ success: false, message: "auth middleware error" });
       } else {
+        if (!req.body) req.body = {};
         req.body.id = decode.id;
         next();
       }
