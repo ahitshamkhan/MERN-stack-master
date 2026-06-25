@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./AuthStyles.css";
+import AuthServices from "../../services/AuthServices";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
-  const registerHandler = (e) => {
+  const registerHandler = async (e) => {
     try {
       e.preventDefault();
-      alert("Register Data Email: " + email + " Password: " + password + " Username: " + username); 
+      const data = { username, email, password };
+      const res = await AuthServices.registerUser(data);
+      toast.success(res.data.message);
+      console.log(res.data.message);
+      navigate('/login');
     } catch (error) {
-      console.log(error);
+      toast.error(error.response?.data?.message || "Registration failed");
+      console.log(error.response?.data?.message);
     }
   };
 
