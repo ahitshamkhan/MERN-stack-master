@@ -1,5 +1,7 @@
 const todoModel = require("../models/todoModel");
 
+
+//create todo
 const createtodoController= async (req,res)=>{
   try{
     const {
@@ -28,6 +30,7 @@ const createtodoController= async (req,res)=>{
   
 }
 
+//get todo
 const gettodoController= async (req,res)=>{
   try{
     const {id}=req.params;
@@ -43,8 +46,7 @@ const gettodoController= async (req,res)=>{
     if(!todo){
       return res.status(404).send({
         success:false,
-        message:'No todo found with this ID',
-        error:err.message
+        message:'No todo found with this ID'
       })
     }
     return res.status(200).send({success:true,message:'todo fetched successfully',todo});
@@ -54,4 +56,43 @@ const gettodoController= async (req,res)=>{
   }
 }
 
-module.exports={createtodoController,gettodoController};
+
+// delete API
+
+const deletetodoController= async (req,res)=>{
+  try{
+    const {id}=req.params;
+    if(!id){
+      return res.status(404).send({
+        success:false,
+        message:'No todo found with this ID'
+      })
+    }
+    //find ID
+    const todo=await todoModel.findById({_id:id});
+    if(!todo){
+      return res.status(404).send({
+        success:false,
+        message:'No todo found with this ID'
+      })
+    }
+    const result=await todoModel.findByIdAndDelete({_id:id});
+    return res.status(200).send({
+      success:true,
+      message:'todo deleted successfully',
+      result
+    })
+
+  }catch(err){
+    console.log(err);
+    return res.status(500).send({
+      success:false,
+      message:'delete todo error',
+      error:err.message
+    })
+  }
+
+
+}
+
+module.exports={createtodoController,gettodoController,deletetodoController};
