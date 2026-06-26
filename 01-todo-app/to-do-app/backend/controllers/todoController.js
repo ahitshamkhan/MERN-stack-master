@@ -91,8 +91,45 @@ const deletetodoController= async (req,res)=>{
       error:err.message
     })
   }
-
-
 }
 
-module.exports={createtodoController,gettodoController,deletetodoController};
+//update todo
+const updatetodoController= async (req,res)=>{
+  try{
+    const {id}=req.params;
+    if(!id){
+      return res.status(404).send({
+        success:false,
+        message:'No todo found with this ID'
+      })
+    }
+    
+    //find ID
+    const todo=await todoModel.findById({_id:id});
+    if(!todo){
+      return res.status(404).send({
+        success:false,
+        message:'No todo found with this ID'
+      })
+    }
+    const data = req.body;
+
+    //update 
+    const result=await todoModel.findByIdAndUpdate(id, {$set:data},{returnOriginal:false});
+    return res.status(200).send({
+      success:true,
+      message:'todo updated successfully',
+      result
+    })
+
+  }catch(err){
+    console.log(err);
+    return res.status(500).send({
+      success:false,
+      message:'update todo error',
+      error:err.message
+    })
+  }
+}
+
+module.exports={createtodoController,gettodoController,deletetodoController,updatetodoController};
